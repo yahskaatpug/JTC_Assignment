@@ -1,0 +1,53 @@
+<% include ./partials/header%>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="ui main text container"  style="padding-top: 4%;">
+<div class="ui top attached segment">
+<% blogs.forEach(function(blogs){ %>
+    <div class="ui top attached segment">
+	<div class="always">
+        <div class="content"><h4><%= blogs.title %></h4></div>
+		<div class="item" style="padding-top: 2%;"><img src="<%=blogs.image%>"></div>
+        <div class="meta" style="padding-top: 2%;"><span><em><%=blogs.created.toDateString()%></em></span></div>
+		<div class="description"><p><%=blogs.body%></p></div>
+		<a><i id="<%= blogs._id %>" class="up fa fa-thumbs-up" value="<%= blogs.upvote %>"  aria-hidden="true"></i>&nbsp;&nbsp;<%= blogs.upvote %> &nbsp;&nbsp;&nbsp;</a>
+         <a>  <i id="<%= blogs._id %>" class="down fa fa-thumbs-down" value="<%=blogs.downvote %>" aria-hidden="true"></i>&nbsp;&nbsp;<%= blogs.downvote %></a>
+    </div>
+</div>
+<%})%>
+
+</div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.js">
+ </script>
+ <script>
+     $(document).ready(function(){
+         $('.up').on("click",function(){
+            var id = $(this).attr('id');
+            var curr=$(this).attr('value');
+            req= $.ajax({
+                
+                url: '/upvoted',
+                type: 'POST',
+                data: {id: id,val: curr}
+                });
+         location.reload(true);   
+         });
+         
+     });
+     $(document).ready(function(){
+         $('.down').on("click",function(){
+            var id = $(this).attr('id');
+            var curr=$(this).attr('value');
+            req= $.ajax({
+                
+                url: '/downvoted',
+                type: 'POST',
+                data: {id: id,val: curr}
+                });
+         location.reload(true);    
+         });
+     });
+ </script>
+
